@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# configuration files 
+config_priv.py
+
+# datafiles
+data_sources/
