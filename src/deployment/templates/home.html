@@ -1,8 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <body>
-        <center>
-            <h1>Movie Recommendation</h1>
-        </center>
-    </body>
+<head>
+	<title>AutoComplete</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">
+	</script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js">
+	</script>
+
+	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css"
+		rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<h1>Movie Recommendation</h1>
+    <form method="POST",  action="{{url_for('home')}}">
+        <label for="Movie_name">What Similar Movie Would You Like?</label><br>
+	    <input type="text" id="tags" name="movie">
+        <input type="submit" value="Submit"><br>
+    </form>
+	<script>
+$( function() {
+	var availableTags = [
+		{% for movie_names in movie_names %}
+			"{{movie_names}}",
+		{% endfor %}
+	];
+	$( "#tags" ).autocomplete({
+	source: availableTags
+	});
+} );
+</script>
+
+</body>
 </html>

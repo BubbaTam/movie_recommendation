@@ -1,5 +1,4 @@
 import os
-
 import joblib
 from flask import Flask, render_template,jsonify, request
 
@@ -30,15 +29,20 @@ film_nam_ind = joblib.load(os.path.join(SAVED_PARAMETER_FOLDER,'film_name_index.
 
 flask_app = Flask(__name__)
 
-@flask_app.route("/")
+@flask_app.route("/" , methods=["GET","POST"])
 def home():
-    return render_template("home.html")
+    if request.method == "GET":
+        movie_names = list(film_nam_ind)
+        return render_template("home.html", movie_names=movie_names)
+    if request.method == "POST":
+        movie_name = request.form.get('movie')
+        return str(recommend_movie(movie=movie_name,cosine_similarity_array=cos_sim,film_name_index=film_nam_ind))
 
 @flask_app.route("/predict_api",methods=["POST","GET"])
 def predict_api():
     """ to input a json data and to predict from the model"""
     if request.method == "GET":
-        return "hello"
+        return render_template("home.html")
     if request.method == "POST":
         movie_name = request.form.get('movie')
         return str(recommend_movie(movie=movie_name,cosine_similarity_array=cos_sim,film_name_index=film_nam_ind))
